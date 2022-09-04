@@ -1,9 +1,13 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 from login.login import login
+from etl.etl import etl
 
 app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+CORS(app)
+
 app.register_blueprint(login, url_prefix='/auth')
+app.register_blueprint(etl, url_prefix='/etl')
 
 @app.route('/')
 def index():

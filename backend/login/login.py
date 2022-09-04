@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 import sqlite3
 
 login = Blueprint("auth", __name__, static_folder='static', template_folder='templates')
@@ -10,10 +10,19 @@ def validate_user(cur, login, email):
 
 	return True if len(user) == 0 else False
 
+def if_exists(cur, login, password):
+	query = "SELECT user_id FROM users WHERE (login=? OR email=?) AND password=?"
+	user_raw = cur.execute(query, (login, login, password))
+	user = user_raw.fetchall()
+
+	return False if len(user) == 0 else True
+
+
 @login.route('/sign_up', methods = ['POST'])
-def sign_up():
+def signup():
 	if request.method == 'POST':
 		data = request.get_json()
+		print(data)
 
 		user_id = data['user_id']
 		name = data['name']
@@ -37,10 +46,29 @@ def sign_up():
 			con.close()
 
 			# Successful signig up
-			return {'code': 1}
+			response = jsonify({'code': 1})
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			return response
 		else:
 			# TO-DO: render error template - already exists
 
 			# Error while signing up
-			return {'code': 0}
+			response = jsonify({'code': 0})
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			return response
+	return 'ok'
+
+@login.route('/login', methods = ['POST'])
+def signin():
+	if request.method == 'POST':
+		data = request.get_json()
+		print(data)
+
+		login = data['login']
+		password = data['password']
+
+		con = sqlite3.connect("etl.db")
+		cur = con.cursor()
+
+		return {'code': 1 if if_exists(cur, login, password) else 0}
 	return 'ok'

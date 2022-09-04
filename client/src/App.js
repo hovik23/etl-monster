@@ -1,8 +1,8 @@
 import './App.css';
 import NavBar from './components/NavBar.js';
-import SignUpForm from './components/Auth/SignUpForm.jsx'
 import LoginTabs from './components/Auth/LoginTabs.jsx'
-import Account from './components/Account.jsx'
+// import Account from './components/Account.jsx'
+import ETLRoot from './components/ETL/ETLRoot.jsx'
 
 function App() {
   return (
@@ -11,7 +11,8 @@ function App() {
       <div className="container">
           <div className="row">
               <div className="col-sm-10 mx-auto">
-                <LoginTabs/>
+                <ETLRoot/>
+                {/*<LoginTabs/>*/}
                 {/*<Account/>*/}
               </div>
           </div>
