@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 import sqlite3
 
-login = Blueprint("login", __name__, static_folder='static', template_folder='templates')
+login = Blueprint("auth", __name__, static_folder='static', template_folder='templates')
 
 def validate_user(cur, login, email):
 	query = "SELECT user_id FROM users WHERE login=? OR email=?"
@@ -10,7 +10,7 @@ def validate_user(cur, login, email):
 
 	return True if len(user) == 0 else False
 
-@login.route('/', methods = ['POST'])
+@login.route('/sign_up', methods = ['POST'])
 def sign_up():
 	if request.method == 'POST':
 		data = request.get_json()
@@ -35,8 +35,12 @@ def sign_up():
 			# TO-DO: add data to session
 			# render main logged main page
 			con.close()
-			return 'Succesfully registered'
+
+			# Successful signig up
+			return {'code': 1}
 		else:
 			# TO-DO: render error template - already exists
-			return 'ok'
+
+			# Error while signing up
+			return {'code': 0}
 	return 'ok'

@@ -3,7 +3,7 @@ from login.login import login
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.register_blueprint(login, url_prefix='/login')
+app.register_blueprint(login, url_prefix='/auth')
 
 @app.route('/')
 def index():
