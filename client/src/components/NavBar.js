@@ -7,7 +7,7 @@ function NavBar() {
                         <a class="nav-link" href="#">Left</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="//codeply.com">Codeply</a>
+                        <a class="nav-link" href="#">Codeply</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
