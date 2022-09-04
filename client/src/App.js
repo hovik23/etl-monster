@@ -1,7 +1,7 @@
 import './App.css';
 import NavBar from './components/NavBar.js';
-import SignUpForm from './components/SignUpForm.jsx'
-import LoginTabs from './components/LoginTabs.jsx'
+import SignUpForm from './components/Auth/SignUpForm.jsx'
+import LoginTabs from './components/Auth/LoginTabs.jsx'
 import Account from './components/Account.jsx'
 
 function App() {
