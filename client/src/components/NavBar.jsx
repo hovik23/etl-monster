@@ -1,4 +1,42 @@
-function NavBar() {
+import React, { useState } from 'react';
+import Account from './Auth/Account.jsx'
+import Content from './Content.jsx';
+
+function NavBar( props ) {
+    const [isLogged, setIsLogged] = useState(false)
+
+    const handleAccount = (e) => {
+        e.preventDefault()
+        props.setActiveTab('account')
+    }
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        props.setActiveTab('login')
+    }
+
+    const updateTable = () => {
+        fetch('http://localhost:5000/data', {
+            'method':'GET',
+            headers : {
+            'Content-Type':'application/json'
+            }
+        }).then((response) => {
+            return response.json()
+        }).then((data) => {
+            props.setTables(props.tables => {
+                ...props.tables,
+                "name": "NEW"
+            })
+        })
+    }
+
+    const handleAdmin = (e) => {
+        e.preventDefault()
+        props.setActiveTab('admin')
+        updateTable()
+    }
+
     return(
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
             <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
@@ -16,7 +54,7 @@ function NavBar() {
                         <a className="nav-link" href="#">Link</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Link</a>
+                        <a className="nav-link" onClick={handleAdmin}>Tables</a>
                     </li>
                 </ul>
             </div>
@@ -29,7 +67,7 @@ function NavBar() {
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Name Surname</a>
+                        <a className="nav-link" onClick={isLogged ? handleAccount : handleLogin}>{isLogged ? "Name Surname" : "Log In"}</a>
                     </li>
                 </ul>
             </div>

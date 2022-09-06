@@ -1,4 +1,5 @@
 import React,{ useState } from 'react';
+import uuid from 'react-uuid';
 
 const ETLProcess = () => {
 	const [text, setText] = useState('')
@@ -11,7 +12,11 @@ const ETLProcess = () => {
 			headers : {
 				'Content-Type':'application/json'
 			},
-			body:JSON.stringify({"text": text})
+			body:JSON.stringify({
+					"text": text,
+					'process_id': uuid()
+					// "user_id": user_id
+				})
 		}).then((response) => {
 			return response.json()
 		}).then((data) => {
