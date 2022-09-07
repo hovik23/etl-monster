@@ -1,13 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UsersTable from './UsersTable.jsx'
 
-const Admin = ( props ) => {
+const Admin = () => {
+    const [tables, setTables] = useState(null)
+
+    useEffect(() => {
+        fetch('http://localhost:5000/data',
+        {
+            'methods':'GET',
+            headers : {
+                'Content-Type':'application/json'
+            }
+        })
+        .then(response => { return response.json() })
+        .then(data => {
+            setTables(data)
+        })
+    },[])
+
     return (
         <div className="account-container">
-            <UsersTable
-                users={props.tables['users']}
-                processes={props.tables['processes']}
-            />
+            {tables && <UsersTable
+                users={tables['users']}
+                processes={tables['processes']}
+            />}
         </div>
         )
 }

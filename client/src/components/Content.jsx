@@ -13,7 +13,7 @@ const Content = ( props ) => {
 					{props.activeTab === 'etl' && ( <ETLRoot/> )}
 					{props.activeTab === 'login' && ( <LoginTabs/> )}
 					{props.activeTab === 'account' && ( <Account/> )}
-					{props.activeTab === 'admin' && ( <Admin tables={props.tables}/> )}
+					{props.activeTab === 'admin' && ( <Admin/> )}
 				</div>
 			</div>
 		</div>

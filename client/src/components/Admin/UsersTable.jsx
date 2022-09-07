@@ -16,20 +16,20 @@ const UsersTable = ( props ) => {
 			</tr>
 			</thead>
 			<tbody>
-				{/*{
-					props.users.map(() => 
-						<tr>
-							<th scope="row">hola</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
+				{
+					props.users.map((user) => 
+						<tr key={user['user_id']}>
+							<th scope="row">{user['user_id']}</th>
+							<td>{user['name']}</td>
+							<td>{user['surname']}</td>
+							<td>{user['callback_url']}</td>
+							<td>{user['music']}</td>
+							<td>{user['email']}</td>
+							<td>{user['login']}</td>
+							<td>{user['password']}</td>
 						</tr>
-						)
-				}*/}
+					)
+				}
 			</tbody>
 		</table>
 		</>
