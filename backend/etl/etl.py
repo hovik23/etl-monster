@@ -4,16 +4,15 @@ import uuid
 
 etl = Blueprint("etl", __name__, static_folder='static')
 
-def create_process(user_id):
+def create_process(con, cur, user_id):
 	query = "INSERT INTO processes VALUES(?, ?)"
-	process_id = uuid.uuid4()
+	process_id = str(uuid.uuid4())
 	params = (process_id, user_id)
 	cur.execute(query, params)
 	con.commit()
-	con.close()
 	return process_id
 
-def finish_process(process_id):
+def finish_process(con, cur, process_id):
 	query = "DELETE FROM processes WHERE process_id=?"
 	params = (process_id, )
 	cur.execute(query, params)
@@ -25,14 +24,17 @@ def etl_main():
 	if request.method == 'POST':
 		data = request.get_json()
 
+		con = sqlite3.connect("etl.db")
+		cur = con.cursor()
+
 		text = data['text']
 
-		process_id = create_process(user_id)
+		process_id = create_process(con, cur, data['user_id'])
 
 		response = jsonify({'text': text.upper()})
 		response.headers.add('Access-Control-Allow-Origin', '*')
 
-		finish_process(process_id)
+		finish_process(con, cur, process_id)
 		return response
 
 		# con = sqlite3.connect("etl.db")

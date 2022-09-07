@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function LoginForm() {
+function LoginForm( props ) {
 	const [login, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -12,7 +12,10 @@ function LoginForm() {
 			'Content-Type':'application/json'
 			},
 			body:JSON.stringify({"login": login, "password": password})
-		})
+		}).then(response => { return response.json() })
+        .then(data => {
+            props.setIsLogged(data)
+        })
 	}
 
 	return(

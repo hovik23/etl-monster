@@ -54,7 +54,6 @@ def if_exists(cur, login, password):
 def signup():
 	if request.method == 'POST':
 		data = request.get_json()
-		print(data)
 
 		user_id = data['user_id']
 		name = data['name']
@@ -110,5 +109,5 @@ def signin():
 		user = load_user(user_id)
 		login_user(user, remember=True)
 
-		return {'code': 1 if if_exists(cur, login, password) else 0}
+		return {'response': True if if_exists(cur, login, password) else False}
 	return 'ok'

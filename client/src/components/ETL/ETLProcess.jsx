@@ -3,7 +3,7 @@ import uuid from 'react-uuid';
 
 const ETLProcess = () => {
 	const [text, setText] = useState('')
-	const [result, setResult] = useState('Here')
+	const [result, setResult] = useState('Result')
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
@@ -14,8 +14,8 @@ const ETLProcess = () => {
 			},
 			body:JSON.stringify({
 					"text": text,
-					'process_id': uuid()
-					// "user_id": user_id
+					"user_id": "1234567890",
+					"process_id": uuid()
 				})
 		}).then((response) => {
 			return response.json()

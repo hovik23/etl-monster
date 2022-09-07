@@ -10,8 +10,8 @@ const Content = ( props ) => {
         <div className="container">
 			<div className="row">
 				<div className="col-sm-10 mx-auto">
-					{props.activeTab === 'etl' && ( <ETLRoot/> )}
-					{props.activeTab === 'login' && ( <LoginTabs/> )}
+					{props.activeTab === 'etl' &&( <ETLRoot/> )}
+					{props.activeTab === 'login' && ( <LoginTabs isLogged={props.isLogged} setIsLogged={props.setIsLogged}/> )}
 					{props.activeTab === 'account' && ( <Account/> )}
 					{props.activeTab === 'admin' && ( <Admin/> )}
 				</div>
