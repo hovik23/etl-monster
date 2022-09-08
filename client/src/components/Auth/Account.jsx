@@ -1,6 +1,20 @@
-import {useState} from 'react';
+import Cookies from 'universal-cookie';
 
 function Account() {
+	const cookies = new Cookies();
+
+	const logout = (e) => {
+		fetch('http://localhost:5000/auth/logout', {
+			'method':'POST',
+			headers : {
+			'Content-Type':'application/json'
+			},
+		}).then(response => { return response.json() })
+		.then(data => {
+			cookies.remove('access_token')
+		})
+	}
+
 	return(
 		<form>
 			<div className="account-container">
@@ -83,6 +97,7 @@ function Account() {
 							</div>
 						</div>
 						<button type="button" className="btn btn-success float-right">Save</button>
+						<button onClick={logout} type="button" className="btn btn-cancel float-right">Logout</button>
 					</div>
 					<div className="col-6 col-md-4">Placeholder</div>
 				</div>

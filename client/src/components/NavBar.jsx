@@ -1,37 +1,25 @@
-import React, { useState } from 'react';
-import Account from './Auth/Account.jsx'
-import Content from './Content.jsx';
+import React, { useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 function NavBar( props ) {
-	const handleAccount = (e) => {
-		e.preventDefault()
-		props.setActiveTab('account')
-	}
+	const cookies = new Cookies();
 
-	const handleLogin = (e) => {
-		e.preventDefault()
-		props.setActiveTab('login')
-	}
+	const [isLogged, setIsLogged] = useState(cookies.get('access_token') ? true : false)
 
-	const handleAdmin = (e) => {
-		e.preventDefault()
-		props.setActiveTab('admin')
-	}
-
-	const handleHome = (e) => {
-		e.preventDefault()
-		props.setActiveTab('etl')
-	}
+	const listener = cookies.addChangeListener(() => {
+		setIsLogged(cookies.get('access_token') ? true : false)
+	})
 
 	return(
 		<nav className="navbar navbar-expand-md navbar-dark bg-dark">
 			<div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 				<ul className="navbar-nav mr-auto">
 					<li className="nav-item active">
-						<a className="nav-link" onClick={handleHome}>Home</a>
+						<Link className="nav-link" to="/etl">ETL</Link>
 					</li>
 					<li className="nav-item">
-						<a className="nav-link" onClick={handleAdmin}>Tables</a>
+						<Link className="nav-link" to="/tables">Tables</Link>
 					</li>
 				</ul>
 			</div>
@@ -44,7 +32,7 @@ function NavBar( props ) {
 			<div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
 				<ul className="navbar-nav ml-auto">
 					<li className="nav-item">
-						<a className="nav-link" onClick={props.isLogged ? handleAccount : handleLogin}>{props.isLogged ? "Name Surname" : "Log In"}</a>
+						{isLogged ? <Link className="nav-link" to="/account">Name Surname</Link> : <Link className="nav-link" to="/auth">Log In</Link>}
 					</li>
 				</ul>
 			</div>
