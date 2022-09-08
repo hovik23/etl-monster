@@ -2,7 +2,7 @@ import {useState} from 'react';
 import SignUpForm from './SignUpForm.jsx'
 import LoginForm from './LoginForm.jsx'
 
-function LoginTabs() {
+function LoginTabs( props ) {
 	return(
 	<div className="sign-up-form">
 		<div className="col-md-6 mx-auto">
@@ -40,7 +40,7 @@ function LoginTabs() {
 			role="tabpanel"
 			aria-labelledby="home-tab"
 			>
-			<LoginForm />
+			<LoginForm isLogged={props.isLogged} setIsLogged={props.setIsLogged}/>
 			</div>
 			<div
 			className="tab-pane fade"

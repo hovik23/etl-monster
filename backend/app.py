@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, jsonify
+from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from login.login import login
 from etl.etl import etl
+import datetime
 import sqlite3
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "galust_sahakian"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=1)
+jwt = JWTManager(app)
 CORS(app)
 
 app.register_blueprint(login, url_prefix='/auth')

@@ -1,16 +1,20 @@
 import React,{ useState } from 'react';
 import uuid from 'react-uuid';
+import Cookies from 'universal-cookie';
 
 const ETLProcess = () => {
 	const [text, setText] = useState('')
 	const [result, setResult] = useState('Result')
+
+	const cookies = new Cookies();
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		fetch('http://localhost:5000/etl/', {
 			'method':'POST',
 			headers : {
-				'Content-Type':'application/json'
+				'Content-Type':'application/json',
+				"Authorization": "Bearer " + cookies.get("access_token")
 			},
 			body:JSON.stringify({
 					"text": text,

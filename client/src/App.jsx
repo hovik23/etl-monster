@@ -3,6 +3,7 @@ import { useState } from 'react';
 import NavBar from './components/NavBar.jsx';
 import Content from './components/Content.jsx';
 
+
 function App() {
 	const [activeTab, setActiveTab] = useState('')
 	const [isLogged, setIsLogged] = useState(false)
