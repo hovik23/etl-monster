@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jti, get_jwt_identity
 import sqlite3
 import uuid
 
@@ -23,8 +23,10 @@ def finish_process(con, cur, process_id):
 @etl.route('/', methods=['POST'])
 @jwt_required()
 def etl_main():
-	# current_user = get_jwt_identity()
+	current_user = get_jwt_identity()
+	print(current_user)
 	data = request.get_json()
+	print(data)
 
 	con = sqlite3.connect("etl.db")
 	cur = con.cursor()
@@ -36,7 +38,7 @@ def etl_main():
 	response = jsonify({'text': text.upper()})
 	response.headers.add('Access-Control-Allow-Origin', '*')
 
-	finish_process(con, cur, process_id)
+	# finish_process(con, cur, process_id)
 	return response
 
 	# con = sqlite3.connect("etl.db")

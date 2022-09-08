@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 
-function LoginForm() {
+function LoginForm( props ) {
 	const [login, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -18,6 +18,8 @@ function LoginForm() {
 		}).then(response => { return response.json() })
 		.then(data => {
 			cookies.set('access_token', data["access_token"], {path: '/'})
+			cookies.set('user_id', data["user_id"], {path: '/'})
+			props.setIsLogged(true)
 		})
 	}
 

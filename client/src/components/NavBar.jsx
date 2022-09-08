@@ -3,13 +3,22 @@ import { Link } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
 function NavBar( props ) {
-	const cookies = new Cookies();
+	const cookies = new Cookies()
 
-	const [isLogged, setIsLogged] = useState(cookies.get('access_token') ? true : false)
+	const [accountName, setAccountName] = useState('')
 
-	const listener = cookies.addChangeListener(() => {
-		setIsLogged(cookies.get('access_token') ? true : false)
-	})
+	  useEffect(() => {
+	  	fetch('http://localhost:5000/auth/user_info', {
+			'method':'POST',
+			headers : {
+			'Content-Type':'application/json'
+			},
+			body: JSON.stringify({"user_id": cookies.get("user_id")})
+		}).then(response => { return response.json() })
+		.then(data => {
+			setAccountName(data['name'] + ' ' + data['surname'])
+		})
+	}, []);
 
 	return(
 		<nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -32,7 +41,7 @@ function NavBar( props ) {
 			<div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
 				<ul className="navbar-nav ml-auto">
 					<li className="nav-item">
-						{isLogged ? <Link className="nav-link" to="/account">Name Surname</Link> : <Link className="nav-link" to="/auth">Log In</Link>}
+						{props.isLogged ? <Link className="nav-link" to="/account">{accountName}</Link> : <Link className="nav-link" to="/auth">Log In</Link>}
 					</li>
 				</ul>
 			</div>

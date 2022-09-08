@@ -83,7 +83,6 @@ def logout():
 @login.route('/login', methods = ['POST'])
 def signin():
 	data = request.get_json()
-	print(data)
 
 	login = data['login']
 	password = data['password']
@@ -94,13 +93,29 @@ def signin():
 	query = "SELECT user_id FROM users WHERE (login=? OR email=?) AND password=?"
 	user_raw = cur.execute(query, (login, login, password))
 	user_id = user_raw.fetchone()[0]
-	print("user_id:", user_id)
 
 	# TO-DO: If user_id is not okay
 	if user_id != None:
 		access_token = create_access_token(identity=user_id)
-		response = {"access_token": access_token}
+		response = { "access_token": access_token, 'user_id': user_id }
 	else:
 		# TO-DO: handle login
 		return {"message": "Wrong email or password"}, 401
+	return response
+
+@login.route("/user_info", methods=["POST"])
+def get_user_info():
+	data = request.get_json()
+
+	con = sqlite3.connect("etl.db")
+	cur = con.cursor()
+
+	query = "SELECT name, surname FROM users WHERE user_id=?"
+	user_raw = cur.execute(query, (data['user_id'], ))
+	fetched = user_raw.fetchone()
+	name = fetched[0]
+	surname = fetched[1]
+	con.close()
+	
+	response = { "name": name, 'surname': surname }
 	return response

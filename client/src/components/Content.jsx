@@ -11,8 +11,8 @@ const Content = ( props ) => {
 				<div className="col-sm-10 mx-auto">
 					<Routes>
 						<Route path="/etl" element={<ETLRoot/>} />
-						<Route path="/auth" element={<LoginTabs/>} />
-						<Route path="/account" element={<Account/>} />
+						<Route path="/auth" element={<LoginTabs isLogged={props.isLogged} setIsLogged={props.setIsLogged}/>} />
+						<Route path="/account" element={<Account isLogged={props.isLogged} setIsLogged={props.setIsLogged}/>} />
 						<Route path="/tables" element={<Admin/>} />
 					</Routes>
 				</div>

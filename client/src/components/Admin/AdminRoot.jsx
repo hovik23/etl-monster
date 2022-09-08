@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import UsersTable from './UsersTable.jsx'
+import ProcessesTable from './ProcessesTable.jsx'
 
 const Admin = () => {
     const [tables, setTables] = useState(null)
@@ -22,6 +23,8 @@ const Admin = () => {
         <div className="account-container">
             {tables && <UsersTable
                 users={tables['users']}
+            />}
+            {tables && <ProcessesTable
                 processes={tables['processes']}
             />}
         </div>

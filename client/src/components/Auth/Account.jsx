@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 
-function Account() {
+function Account( props ) {
 	const cookies = new Cookies();
 
 	const logout = (e) => {
@@ -12,6 +12,7 @@ function Account() {
 		}).then(response => { return response.json() })
 		.then(data => {
 			cookies.remove('access_token')
+			props.setIsLogged(false)
 		})
 	}
 

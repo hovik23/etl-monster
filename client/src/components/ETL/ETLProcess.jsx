@@ -10,6 +10,7 @@ const ETLProcess = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
+		console.log(cookies.get("user_id"))
 		fetch('http://localhost:5000/etl/', {
 			'method':'POST',
 			headers : {
@@ -18,7 +19,7 @@ const ETLProcess = () => {
 			},
 			body:JSON.stringify({
 					"text": text,
-					"user_id": "1234567890",
+					"user_id": cookies.get("user_id"),
 					"process_id": uuid()
 				})
 		}).then((response) => {
