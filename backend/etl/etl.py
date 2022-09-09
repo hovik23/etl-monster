@@ -18,7 +18,13 @@ def finish_process(con, cur, process_id):
 	params = (process_id, )
 	cur.execute(query, params)
 	con.commit()
-	con.close()
+
+def get_callback_url(cur, user_id):
+	query = "SELECT callback_url FROM users WHERE user_id=?"
+	params = (user_id, )
+	callback_url_raw = cur.execute(query, params)
+	callback_url = callback_url_raw.fetchone()[0]
+	return callback_url
 
 @etl.route('/', methods=['POST'])
 @jwt_required()
@@ -38,7 +44,18 @@ def etl_main():
 	response = jsonify({'text': text.upper()})
 	response.headers.add('Access-Control-Allow-Origin', '*')
 
-	# finish_process(con, cur, process_id)
+	finish_process(con, cur, process_id)
+
+	fetch(get_callback_url(data['user_id']), {
+			'method':'POST',
+			headers : {
+			'Content-Type':'application/json'
+			},
+			body: JSON.stringify({"ready": True})
+		})
+
+	con.close()
+
 	return response
 
 	# con = sqlite3.connect("etl.db")
